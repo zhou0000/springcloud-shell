@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.order.mapper.OrderDetailMapper">
+    <insert id="create" parameterType="orderDetail">
+        insert order_detail (
+            detail_id,
+            order_id,
+            product_id,
+            product_name,
+            product_price,
+            product_quantity,
+            product_icon,
+            create_time
+        )values (
+            #{detailId},
+            #{orderId},
+            #{productId},
+            #{productName},
+            #{productPrice},
+            #{productQuantity},
+            #{productIcon},
+            #{createTime}
+        )
+    </insert>
+</mapper>

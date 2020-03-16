@@ -1,0 +1,25 @@
+server:
+  port: 10087
+spring:
+  application:
+    name: eureka-order
+eureka:
+  client:
+    service-url: #EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其他server的地址
+      defaultZone: http://127.0.0.1:10087/eureka #启动服务，访问http://127.0.0.1:10086
+    register-with-eureka: false #当前服务本身只是作为Eureka的服务端，不将自己还作为客户端注册到服务端 改为false
+    #register-with-eureka=参数是否为true，事实上默认就是true，如果为true就会想eureka server发送一个Rest请求，并携带自己的
+    #元数据信息，Eureka Server会把这些信息保存到一个双层Map结构中
+  #服务续约：默认情况每30秒服务会向注册中心发送一次心跳，证明自己还活着，如果超过90秒没有发送心跳，EurekaServer就会认为该服务宕机
+  #  从服务列表中剔除，这两个值生产环境下不要修改，默认即可
+  instance:
+    lease-expiration-duration-in-seconds: 10 #10秒就过期
+    lease-renewal-interval-in-seconds: 5 #5秒一次心跳
+  #失效剔除，服务提供方并不一定会正常下线，可能因为内存溢出，网络故障等原因，导致服务无法正常工作，
+  #Eureka Server需要将这样的服务剔除服务列表。因此它会开启一个定时任务，每隔60秒对所有失效的服务（超过90秒未响应）进行剔除
+  server:
+    eviction-interval-timer-in-ms: 10000 #生产环境不用改，开发环境可适当时间调短些
+    enable-self-preservation: false #关闭自我保护机制（默认打开)
+    #自我保护机制：当一个服务未按时进行心跳续约时，Eureka会统计最近15分钟心跳失败的服务实例的比例是否超过了85%，
+    #在生产环境下，因为网络延迟等原因，心跳失败的比例很有可能超标，但此时就把服务从列表中剔除并不妥当，因为服务可能还没有宕机
+    #Eureka就会把当前实例的注册信息保护起来，不予剔除，生产环境下很有效，保证了大多数服务依然可用，开发阶段一般关闭

@@ -1,0 +1,19 @@
+server:
+  port: 5858
+spring:
+  application:
+    name: product-server
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/springcloud_shell?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10087/eureka
+mybatis:
+  type-aliases-package: com.order.entity
+  mapper-locations: classpath:mappers/*.xml #映射文件，如果使用通用mapper，就不需要此配置
+  configuration:
+    map-underscore-to-camel-case: true #驼峰命名

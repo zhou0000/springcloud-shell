@@ -1,0 +1,18 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10087/eureka
+zuul:
+  routes:
+#    myProduct: 这个可以随便写
+#      path: /myProduct/** #请求路径以/myProduct/开头的都路由过来
+#      serviceId: product-server #服务名称
+    product-server: /myProduct/** #简写
+  ignored-patterns: #排除某些路径被路由，说白了就是外部（浏览器，postman）不能调用，只能服务间调用 patterns:值是一个集合
+    #- /myProduct/product/list   #此路径外界就不能访问了，报404  可以简写 /**/product/list
+  sensitive-headers: #敏感头信息拦截，不填则不拦截，解决zuul无法获取cookie问题
